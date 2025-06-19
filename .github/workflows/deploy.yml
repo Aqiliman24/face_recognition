@@ -8,14 +8,12 @@ on:
 env:
   IMAGE_NAME: aqiliman24/face-recognition
   IMAGE_TAG: latest
-  DEPLOY_HOST: ${{ secrets.SERVER_IP }}
-  DEPLOY_USER: ${{ secrets.SERVER_USER }}
-  DEPLOY_SSH_KEY: ${{ secrets.SERVER_SSH_KEY }}
   INSTANCE_COUNT: 2  # Number of instances to deploy
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: AI medkad server
 
     steps:
       - name: Checkout code
@@ -24,8 +22,8 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          username: ${{ env.DOCKERHUB_USERNAME }}
+          password: ${{ env.DOCKERHUB_TOKEN }}
 
       - name: Build Docker image
         run: |
@@ -39,18 +37,18 @@ jobs:
       - name: Copy docker-compose file to server
         uses: appleboy/scp-action@v0.1.4
         with:
-          host: ${{ env.DEPLOY_HOST }}
-          username: ${{ env.DEPLOY_USER }}
-          key: ${{ env.DEPLOY_SSH_KEY }}
+          host: ${{ env.SERVER_IP }}
+          username: ${{ env.SERVER_USER }}
+          key: ${{ env.SERVER_SSH_KEY }}
           source: "docker-compose.yml"
           target: "~/face-recognition"
 
       - name: Deploy on server via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ env.DEPLOY_HOST }}
-          username: ${{ env.DEPLOY_USER }}
-          key: ${{ env.DEPLOY_SSH_KEY }}
+          host: ${{ env.SERVER_IP }}
+          username: ${{ env.SERVER_USER }}
+          key: ${{ env.SERVER_SSH_KEY }}
           script: |
             cd ~/face-recognition
             
