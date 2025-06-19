@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Face Registration{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h2 class="mb-0">Face Registration</h2>
+            </div>
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-md-8 offset-md-2 text-center">
+                        <div class="webcam-container">
+                            <video id="webcam" class="border" autoplay playsinline width="100%"></video>
+                            <canvas id="canvas" class="d-none"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-8 offset-md-2">
+                        <div class="form-group">
+                            <label for="icNumber" class="form-label">IC Number (12 digits)</label>
+                            <input type="text" class="form-control" id="icNumber" placeholder="e.g., 900101105599" maxlength="12" pattern="[0-9]{12}" required>
+                            <div class="invalid-feedback">
+                                Please enter a valid 12-digit IC number.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-8 offset-md-2 text-center">
+                        <button id="captureBtn" class="btn btn-success btn-lg mb-3">
+                            <i class="fas fa-camera me-2"></i> Capture and Register
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Liveness Challenge Container -->
+                <div class="row mt-3">
+                    <div class="col-md-8 offset-md-2">
+                        <div id="livenessContainer" class="card mb-4 d-none">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0">Anti-Spoofing Check</h5>
+                            </div>
+                            <div class="card-body">
+                                <p id="livenessInstructions" class="text-center mb-3">Please complete the following actions to verify you are a real person:</p>
+                                <ul id="actionsList" class="list-group mb-3">
+                                    <!-- Actions will be inserted here by JavaScript -->
+                                </ul>
+                                <div class="text-center">
+                                    <button id="completeActionBtn" class="btn btn-primary">
+                                        <i class="fas fa-check me-2"></i> I've completed this action
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Results Container -->
+                <div class="row mt-3">
+                    <div class="col-md-8 offset-md-2">
+                        <div id="resultContainer" class="d-none">
+                            <div id="resultAlert" class="alert"></div>
+                        </div>
+                        <div id="spinner" class="text-center d-none">
+                            <div class="spinner-border text-success" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <p class="mt-2">Processing...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Font Awesome -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<!-- Custom JS -->
+<script src="{{ url_for('static', filename='js/register.js') }}"></script>
+{% endblock %}

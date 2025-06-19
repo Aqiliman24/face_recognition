@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Face Verification{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Face Verification</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="webcam-container">
+                                <video id="webcam" autoplay playsinline width="100%" class="rounded border"></video>
+                                <canvas id="canvas" class="d-none"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-grid gap-3">
+                                <button id="captureBtn" class="btn btn-primary btn-lg">
+                                    <i class="bi bi-camera-fill me-2"></i>Capture and Verify
+                                </button>
+                                <div id="spinner" class="d-none text-center">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <p class="mt-2">Processing...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Liveness Challenge Container -->
+                    <div class="row mt-4">
+                        <div class="col-md-12">
+                            <div id="livenessContainer" class="card mb-4 d-none">
+                                <div class="card-header bg-info text-white">
+                                    <h5 class="mb-0">Anti-Spoofing Check</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p id="livenessInstructions" class="text-center mb-3">Please complete the following actions to verify you are a real person:</p>
+                                    <ul id="actionsList" class="list-group mb-3">
+                                        <!-- Actions will be inserted here by JavaScript -->
+                                    </ul>
+                                    <div class="text-center">
+                                        <button id="completeActionBtn" class="btn btn-primary">
+                                            <i class="bi bi-check me-2"></i> I've completed this action
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="resultContainer" class="mt-4 d-none">
+                        <div class="alert" role="alert" id="resultAlert">
+                            <!-- Result message will be displayed here -->
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Verification Result</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p><strong>Status:</strong> <span id="verificationStatus"></span></p>
+                                        <p><strong>IC Number:</strong> <span id="icNumber">-</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/webcam.js') }}"></script>
+{% endblock %}
