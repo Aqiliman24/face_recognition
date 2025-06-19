@@ -2,11 +2,9 @@ version: '3'
 
 services:
   face_recognition_app:
-    build: .
+    image: aqiliman24/face-recognition:latest
     ports:
       - "2020:2020"
     volumes:
       - ./faces:/app/faces
-    env_file:
-      - .env
     restart: unless-stopped
